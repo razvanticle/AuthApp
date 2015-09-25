@@ -22,7 +22,7 @@ namespace AuthApp.Tests.Services
             var actual = sut.GenerateOtp(counter, secretKey, 6);
 
             // assert
-            Assert.AreEqual(actual, expectedResult);
+            Assert.AreEqual(expectedResult, actual);
         }
 
         private IEnumerable<TestCaseData> GetSha1TestCases()

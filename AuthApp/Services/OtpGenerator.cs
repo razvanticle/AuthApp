@@ -6,7 +6,7 @@ namespace AuthApp.Services
     /// <summary>
     /// Generates one-time passwords based on the HOTP algorithm.
     /// </summary>
-    public class OtpGenerator
+    public class OtpGenerator : IOtpGenerator
     {
         /// <summary>
         /// Initializes a new instance of OtpGenerator class.

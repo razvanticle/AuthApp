@@ -49,6 +49,7 @@
     <Compile Include="Services\HmacGenerators\Sha256HmacGenerator.cs" />
     <Compile Include="Services\HmacGenerators\Sha512HmacGenerator.cs" />
     <Compile Include="Services\IAuthenticationService.cs" />
+    <Compile Include="Services\IOtpGenerator.cs" />
     <Compile Include="Services\OtpGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
