@@ -3,7 +3,7 @@
 namespace AuthApp.Services
 {
     /// <summary>
-    ///     Generates one-time passwords based on the current time and a secret key TOTP algorithm.
+    ///     Generates one-time passwords based on the current time and a secret key, using the TOTP algorithm.
     ///     https://www.ietf.org/rfc/rfc6238.txt
     /// </summary>
     public class AuthenticationService : IAuthenticationService
@@ -18,7 +18,7 @@ namespace AuthApp.Services
         }
 
         /// <summary>
-        ///     Generates one-time passwords based on the given time and secret key.
+        ///     Generates a one-time password based on the given time and secret key.
         /// </summary>
         /// <param name="secredKey">The secret key.</param>
         /// <param name="time">The time for which to generate the password.</param>
@@ -29,7 +29,7 @@ namespace AuthApp.Services
         }
 
         /// <summary>
-        ///     Generates one-time passwords based on the given time and secret key.
+        ///     Generates a one-time password based on the given time and secret key.
         /// </summary>
         /// <param name="secredKey">The secret key.</param>
         /// <param name="time">The time for which to generate the password.</param>
@@ -37,8 +37,7 @@ namespace AuthApp.Services
         /// <returns>The one-time generated password.</returns>
         public string GneratePassword(byte[] secredKey, DateTime time, int length)
         {
-            var span = time.ToUniversalTime() - unixTime;
-            var steps = (int) (span.TotalSeconds/TimeStep);
+            var steps = GetTimeSteps(time);
 
             return otpGenerator.GenerateOtp(steps, secredKey, length);
         }
@@ -53,8 +52,7 @@ namespace AuthApp.Services
         /// <returns>True if the provided password is valid, false otherwise.</returns>
         public bool ValidatePassword(string providedPassword, byte[] secretKey, int length, DateTime time)
         {
-            var span = time.ToUniversalTime() - unixTime;
-            var steps = (int) (span.TotalSeconds/TimeStep);
+            var steps = GetTimeSteps(time);
             var interval = (int) (Math.Abs(ValidityPeriod.TotalSeconds)/30);
             var minSteps = steps - interval;
             var maxSteps = steps + interval;
@@ -69,6 +67,13 @@ namespace AuthApp.Services
             }
 
             return false;
+        }
+
+        private int GetTimeSteps(DateTime time)
+        {
+            var span = time.ToUniversalTime() - unixTime;
+            var steps = (int) (span.TotalSeconds/TimeStep);
+            return steps;
         }
 
         private readonly int DefaultPasswordLength = 6;
