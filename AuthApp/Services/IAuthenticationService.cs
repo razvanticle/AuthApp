@@ -8,6 +8,6 @@ namespace AuthApp.Services
 
         string GneratePassword(byte[] secredKey, DateTime time, int length);
 
-        bool ValidatePassword(string providedPassword, DateTime currentTime, TimeSpan validityPeriod);
+        bool ValidatePassword(string providedPassword, byte[] secretKey, int length, DateTime time);
     }
 }
